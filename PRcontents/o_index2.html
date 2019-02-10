@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>jQueryによるフリックスライド</title>
+<style>
+/*	.myStyle{
+		border:5px solid green;
+		font-size:48px;
+	}
+*/
+/*
+	.clearfix:after{
+		content:".";
+		display: block;
+		clear: both;
+		height: 0;
+		visibility: hidden;
+	}
+
+	.clearfix{
+		min-height; 1%;
+	}
+
+	*html .clearfix{
+		height: 1%;
+		height: auto;
+		overflow: hidden;
+	}*/
+/*
+	#flame{
+		position:relative;
+		width:300px;
+		height:150px;
+		overflow:hidden;ボックスからはみ出た部分は非表示
+	}
+
+	#slider{
+		position:absolute;
+		z-index:0;
+		width:900px;
+		height:150px;
+	}
+*/
+/*	#flame {position:relative; width:1536px; height:2000px; margin:10px auto; overflow:hidden; border:1px solid #F00;}
+*/
+	body{
+		margin:0px; padding:0px;
+	}
+
+	#flame {position:relative; width:1536px; height:2048px; overflow:hidden; background-color: blue;}
+
+	#slider {position:absolute; cursor:move; z-index:0; width:1536px; height:7680px; background-color:red;}
+
+/*	#slider p {float:left; width:1536px; height:1536px; text-align:center; line-height:1536px;}*/
+
+	#slider p {float:left; width:1536px; height:2048px; text-align:center; background-image:url("img/dot3.jpg"); margin:0px; padding: 0px;}
+
+	/*	#slider p {float:left; width:1536px; height:1536px; margin:4px; border:1px solid #888; text-align:center; line-height:1500px;}*/
+
+</style>
+</head>
+<body>
+	<!-- <p>jQueryの練習</p> -->
+	<div id="flame">
+	<div id="slider">
+	<!-- class="clearfix"> -->
+		<p>1</p>
+		<p>2</p>
+		<p>3</p>
+		<p>4</p>
+		<p>5</p>
+		<p>6</p>
+	</div>
+	</div>
+
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="jquery-2.1.4.min.js"></script>
+	<script>
+
+		$('#slider').on({
+			/* フリック開始時 */
+			'touchstart': function(e){
+				this.touchY = event.changedTouches[0].pageY;
+				// this.touchY = event.changedTouches[0].pageY;
+				this.slideY = $(this).position().top;
+				// console.log(this.touchX);
+				// console.log(this.touchY);
+			},
+
+			/* フリック中 */
+			'touchmove': function(e){
+				e.preventDefault();
+				this.slideY = this.slideY - (this.touchY - event.changedTouches[0].pageY);
+				$(this).css({top:this.slideY});
+				this.touchY = event.changedTouches[0].pageY;
+			},
+
+			/* フリック終了 */
+			'touchend': function(e){
+				if(this.slideY > 0){
+					this.slideY = 0;
+					$(this).animate({top:"0px"}, 500);
+				}
+			}
+		});
+
+			
+
+
+
+
+
+		// });
+	</script>
+</body>
+</html>

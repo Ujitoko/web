@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>パララックス</title>
+<style>
+
+	body{
+		margin:0px; padding:0px;
+	}
+
+	#num {position: fixed; top: 10px; right: 10px;}
+
+	#flame {position:relative; width:1536px; height:2048px; overflow:hidden; background-color: blue;}
+
+	#slider {position:absolute; cursor:move; z-index:0; width:1536px; height:7680px; background-color:red;}
+
+/*	#slider p {float:left; width:1536px; height:1536px; text-align:center; line-height:1536px;}*/
+
+	#slider p {float:left; width:1536px; height:2048px; text-align:center; background-image:url("img/dot3.jpg"); margin:0px; padding: 0px;}
+
+	section {
+		height: 1800px;	
+	}
+
+
+</style>
+
+<script src="jquery-2.1.4.min.js"></script>
+<script>
+	$(function(){
+		$(window).scroll(function(){
+			var y = $(this).scrollTop();
+			$("#num").text("スクロール量:" + y);
+			// console.log("aaaa");
+		});
+	});
+</script>
+
+<script>
+
+	$('#slider').on({
+		/* フリック開始時 */
+		'touchstart': function(e){
+			this.touchY = event.changedTouches[0].pageY;
+			// this.touchY = event.changedTouches[0].pageY;
+			this.slideY = $(this).position().top;
+			console.log(this.touchX);
+			console.log(this.touchY);
+			console.log(this.className);
+		},
+
+		/* フリック中 */
+		'touchmove': function(e){
+			e.preventDefault();
+			this.slideY = this.slideY - (this.touchY - event.changedTouches[0].pageY);
+			$(this).css({top:this.slideY});
+			this.touchY = event.changedTouches[0].pageY;
+
+
+
+		},
+
+		/* フリック終了 */
+		'touchend': function(e){
+			if(this.slideY > 0){
+				this.slideY = 0;
+				$(this).animate({top:"0px"}, 500);
+			}
+		}
+	});
+</script>
+
+</head>
+<body>
+	<section>
+	<h1>スクロール総量</h1>
+	<p id="num">ここに数値を表示</p>
+	</section>
+
+	<p>jQueryの練習</p>
+	<div id="flame">
+	<div id="slider">
+	<class="clearfix">
+		<p class="usual">1</p>
+		<p class="unusual">2</p>
+		<p>3</p>
+		<p>4</p>
+		<p>5</p>
+		<p>6</p>
+	</class="clearfix">
+	</div>
+	</div>
+
+
+
+</body>
+</html>
